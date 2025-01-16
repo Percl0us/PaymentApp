@@ -69,7 +69,7 @@ userRouter.post('/signin', async (req, res) => {
         })
     }
     try {
-        const existuser = await User.findOne({ username });
+        const existuser = await User.findOne({ username,password });
         if (!existuser) {
             return res.status(411).json({ msg: "error while logging in" });
         }
@@ -77,7 +77,6 @@ userRouter.post('/signin', async (req, res) => {
         const decoded = jwt.verify(token,JWT_SECRET);
         res.json({
             token: token,
-            decoded:decoded
            
         });
     } catch (e) {
@@ -106,7 +105,8 @@ userRouter.put('/', authMiddleware, async (req, res) => {
 
 userRouter.get('/bulk', async (req, res) => {
     const filter = req.query.filter || "";
-
+    const userid= req.query.id;
+    
     const users = await User.find({
         $or: [{
             firstName: {
@@ -118,9 +118,9 @@ userRouter.get('/bulk', async (req, res) => {
             }
         }]
     });
-
+    
     res.json({
-        user: users.map(user => ({
+        user: users.filter(user=>user._id!=userid).map(user => ({
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,

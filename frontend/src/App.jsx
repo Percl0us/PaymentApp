@@ -5,14 +5,10 @@ import { Dashboard } from "./pages/Dasboard";
 import { SendMoney } from "./pages/SendMoney";
 
 function App() {
-
-
   return (
     <> 
         <BrowserRouter>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
+
       <Routes>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path ='/signin'element={<Signin></Signin>}></Route>
@@ -20,7 +16,6 @@ function App() {
         <Route path = '/send' element={<SendMoney></SendMoney>}></Route>
       </Routes>
       </BrowserRouter>
-
 
     </>
   )

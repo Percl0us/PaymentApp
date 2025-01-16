@@ -2,7 +2,7 @@
 // backend/routes/account.js
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { Account } = require('../db');
+const { Account, User } = require('../db');
 const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
@@ -11,9 +11,14 @@ router.get("/balance", authMiddleware, async (req, res) => {
     const account = await Account.findOne({
         userId: req.userId
     });
+    const user =await User.findOne({
+        _id: req.userId
+    })
 
     res.json({
-        balance: account.balance
+        firstName:user.firstName,
+        balance: account.balance,
+        userId:req.userId
     })
 });
 
